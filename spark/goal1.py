@@ -41,17 +41,17 @@ df2 = df2\
     .withColumn('status', df2["status"].cast(IntegerType()))\
     .withColumn('request_time', df2["request_time"].cast(FloatType()))
 
-df2 = df2
+df2 = df2\
     .groupby(
         F.window("@timestamp", "20 seconds"),
         F.col("client_ip")
     )\
     .count()\
-    .filter("count >= 10")
+    .filter("count > 10")
 #    .withColumn("value", F.to_json( F.struct(F.col("*"))))\
 #    .withColumn("value", F.encode(F.col("value"), "utf-8").cast("binary"))
 
-df2 = df2\    
+df2 = df2\
     .writeStream\
     .option("truncate", "false")\
     .outputMode("update")\
