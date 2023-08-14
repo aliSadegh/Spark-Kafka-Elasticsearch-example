@@ -16,7 +16,6 @@ SCHEMA = StructType([
     StructField("@timestamp", StringType())
     ])
 
-
 spark = SparkSession.builder.appName("read_test_straeam").getOrCreate()
 
 # Reduce logging
@@ -28,16 +27,6 @@ df = spark.readStream.format("kafka") \
     .option("startingOffsets", "earliest") \
     .load()
 
-df\
-            .writeStream\
-                .format("kafka")\
-                    .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVERS)\
-                        .option("topic", "goal1-topic")\
-                            .option("checkpointLocation", "/tmp/checkpoint")\
-                                .start()\
-                                .awaitTermination()
-
-
 df2 = df.select(
         # Convert the value to a string
         F.from_json(
@@ -47,44 +36,34 @@ df2 = df.select(
     )\
     .select("value.*")
 
-#.withColumn('@timestamp22', F.to_timestamp(df2['@timestamp'])\
-#withColumn("status", df2["status"].cast(IntegerType()))
 df2 = df2\
     .withColumn('@timestamp', F.from_unixtime('@timestamp').cast(TimestampType()))\
     .withColumn('status', df2["status"].cast(IntegerType()))\
     .withColumn('request_time', df2["request_time"].cast(FloatType()))
 
-df2 = df2.withColumn("value", F.to_json( F.struct(F.col("*"))))\
-            .withColumn("value", F.encode(F.col("value"), "utf-8").cast("binary"))
-#    .groupby(
-#        F.window("@timestamp", "20 seconds"),
-#        F.col("client_ip")
-#    )\
-#    .count()\
-#    .filter("count >= 10")\
+df2 = df2
+    .groupby(
+        F.window("@timestamp", "20 seconds"),
+        F.col("client_ip")
+    )\
+    .count()\
+    .filter("count >= 10")
 #    .withColumn("value", F.to_json( F.struct(F.col("*"))))\
 #    .withColumn("value", F.encode(F.col("value"), "utf-8").cast("binary"))
 
-df2 = df2\
+df2 = df2\    
     .writeStream\
-    .format("kafka")\
-    .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVERS)\
-    .option("topic", "goal1-topic")\
-    .option("checkpointLocation", "/tmp/checkpoint")\
+    .option("truncate", "false")\
+    .outputMode("update")\
+    .format("console")\
     .start()\
     .awaitTermination()
-    
-    #.outputMode("update")\
-#    .writeStream\
-#    .option("truncate", "false")\
-#    .outputMode("update")\
-#    .format("console")\
-#    .start()\
-#    .awaitTermination()
 
-#df.selectExpr("CAST(value AS STRING)") \
-#    .writeStream \
-#    .format("console") \
-#    .outputMode("append") \
-#    .start() \
+#df2\
+#    .writeStream\
+#    .format("kafka")\
+#    .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVERS)\
+#    .option("topic", "goal1-topic")\
+#    .option("checkpointLocation", "/tmp/checkpoint")\
+#    .start()\
 #    .awaitTermination()
