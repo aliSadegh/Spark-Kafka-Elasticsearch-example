@@ -1,3 +1,5 @@
+#Detects if a user requests more than 10 times in every 20 seconds (1 sec hopping).
+
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DateType, FloatType, TimestampType
