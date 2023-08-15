@@ -65,6 +65,6 @@ df.writeStream\
     .format("kafka")\
     .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVERS)\
     .option("topic", "goal4-topic")\
-    .option("checkpointLocation", "/tmp/checkpoint")\
+    .option("checkpointLocation", "/tmp/checkpoint4")\
     .start()\
     .awaitTermination()
