@@ -50,23 +50,25 @@ df2 = df2\
         F.col("host")
     )\
     .count()\
-    .filter("count > 15")
-#    .withColumn("value", F.to_json( F.struct(F.col("*"))))\
-#    .withColumn("value", F.encode(F.col("value"), "utf-8").cast("binary"))
+    .filter("count > 15")\
+    .withColumn("value", F.to_json( F.struct(F.col("*"))))\
+    .selectExpr("value")
 
-df2 = df2\
-    .writeStream\
-    .option("truncate", "false")\
-    .outputMode("update")\
-    .format("console")\
-    .start()\
-    .awaitTermination()
-
-#df2\
+#df2.printSchema()
+#df2 = df2\
 #    .writeStream\
-#    .format("kafka")\
-#    .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVERS)\
-#    .option("topic", "goal1-topic")\
-#    .option("checkpointLocation", "/tmp/checkpoint")\
+#    .option("truncate", "false")\
+#    .outputMode("update")\
+#    .format("console")\
 #    .start()\
 #    .awaitTermination()
+
+df2\
+    .writeStream\
+    .outputMode("update")\
+    .format("kafka")\
+    .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVERS)\
+    .option("topic", "goal2-topic")\
+    .option("checkpointLocation", "/tmp/checkpoint")\
+    .start()\
+    .awaitTermination()
