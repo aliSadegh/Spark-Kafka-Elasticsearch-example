@@ -40,8 +40,8 @@ df = df.select(
 
 df = df\
     .withColumn('@timestamp', F.from_unixtime('@timestamp').cast(TimestampType()))\
-    .withColumn('status', df2["status"].cast(IntegerType()))\
-    .withColumn('request_time', df2["request_time"].cast(FloatType()))
+    .withColumn('status', df["status"].cast(IntegerType()))\
+    .withColumn('request_time', df["request_time"].cast(FloatType()))
 
 df = df\
     .filter("status between 200 and 299")\
