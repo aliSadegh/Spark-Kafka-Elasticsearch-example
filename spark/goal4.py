@@ -29,7 +29,7 @@ df = spark.readStream.format("kafka") \
     .option("startingOffsets", "earliest") \
     .load()
 
-df2 = df.select(
+df = df.select(
         # Convert the value to a string
         F.from_json(
             F.decode(F.col("value"), "utf-8"),
@@ -38,33 +38,33 @@ df2 = df.select(
     )\
     .select("value.*")
 
-df2 = df2\
+df = df\
     .withColumn('@timestamp', F.from_unixtime('@timestamp').cast(TimestampType()))\
     .withColumn('status', df2["status"].cast(IntegerType()))\
     .withColumn('request_time', df2["request_time"].cast(FloatType()))
 
-df2 = df2\
+df = df\
     .groupby(
         F.window("@timestamp", "1 minutes"),
         F.col("host")
     )\
-    .avg("request_time")
-#    .withColumn("value", F.to_json( F.struct(F.col("*"))))\
-#    .withColumn("value", F.encode(F.col("value"), "utf-8").cast("binary"))
+    .avg("request_time")\
+    .withColumn("value", F.to_json( F.struct(F.col("*"))))\
+    .selectExpr("value")
 
-df2 = df2\
-    .writeStream\
-    .option("truncate", "false")\
-    .outputMode("update")\
-    .format("console")\
-    .start()\
-    .awaitTermination()
-
-#df2\
-#    .writeStream\
-#    .format("kafka")\
-#    .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVERS)\
-#    .option("topic", "goal1-topic")\
-#    .option("checkpointLocation", "/tmp/checkpoint")\
+#df.printSchema()
+#df.writeStream\
+#    .option("truncate", "false")\
+#    .outputMode("update")\
+#    .format("console")\
 #    .start()\
 #    .awaitTermination()
+
+df.writeStream\
+    .outputMode("update")\
+    .format("kafka")\
+    .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVERS)\
+    .option("topic", "goal4-topic")\
+    .option("checkpointLocation", "/tmp/checkpoint")\
+    .start()\
+    .awaitTermination()
