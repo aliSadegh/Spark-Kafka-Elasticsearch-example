@@ -24,10 +24,10 @@ services:
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
     healthcheck:
-      test: ["CMD", "kafka-broker-api-versions.sh", "--bootstrap-server", "localhost:9092"]
-      interval: 5s
+      test: ["CMD", "kafka-topics.sh", "--list", "--bootstrap-server", "localhost:9092"]
+      interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 3
 
   spark:
 #    image: docker.io/bitnami/spark:3.4
@@ -88,9 +88,9 @@ services:
       - xpack.security.enabled=false
       - discovery.type=single-node
     healthcheck:
-      test: ["CMD", "CURL", "http://localhost:9200"]
-      interval: 1m30s
-      timeout: 10s
+      test: ["CMD", "curl", "http://localhost:9200"]
+      interval: 30s
+      timeout: 5s
       retries: 5
 
   kafka-connect:
