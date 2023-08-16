@@ -1,7 +1,6 @@
 FROM bitnami/spark:3.4
 #COPY ./spark-sql-kafka-0-10_2.13-3.4.1.jar /opt/bitnami/spark/jars/spark-sql-kafka-0-10_2.13-3.4.1.jar
-COPY ./hadoop-client-runtime-3.3.4.jar /opt/bitnami/spark/jars/hadoop-client-runtime-3.3.4.jar
-COPY ./hadoop-client-runtime-3.3.4.pom /opt/bitnami/spark/jars/hadoop-client-runtime-3.3.4.pom
+COPY ./packages/* /opt/bitnami/spark/jars/
 COPY ./src/* /src/
 RUN ["pip3", "install", "kafka-python"]
 CMD ["/bin/sh", "-c", \
