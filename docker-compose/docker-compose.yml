@@ -88,7 +88,7 @@ services:
       - xpack.security.enabled=false
       - discovery.type=single-node
     healthcheck:
-      test: ["CURL", "http://localhost:9200"]
+      test: ["CMD", "CURL", "http://localhost:9200"]
       interval: 5s
       timeout: 5s
       retries: 5
