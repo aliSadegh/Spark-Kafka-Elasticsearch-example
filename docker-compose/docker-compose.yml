@@ -23,6 +23,11 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions.sh", "--bootstrap-server", "localhost:9092"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   spark:
 #    image: docker.io/bitnami/spark:3.4
@@ -40,7 +45,8 @@ services:
     networks:
       - net01
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
 #    volumes:
 #      - "/tmp/data/spark:/data"   
 #      - "/tmp/data/spark:/src"
@@ -66,8 +72,8 @@ services:
     container_name: data_producer
     networks:
       - net01
-    depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
 
   elastic:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
@@ -80,13 +86,20 @@ services:
     environment:   
       - xpack.security.enabled=false
       - discovery.type=single-node
+    healthcheck:
+      test: ["CURL", "http://localhost:9200"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   kafka-connect:
     build: kafka-connect
     container_name: kafka-connect
     depends_on:
-      - kafka
-      - elastic
+      kafka:
+        condition: service_healthy
+      elastic:
+        condition: service_healthy
     networks:
       - net01
 
