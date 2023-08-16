@@ -1,6 +1,7 @@
+import sys
 from kafka import KafkaConsumer
 
-consumer = KafkaConsumer('goal1-topic', bootstrap_servers='localhost:9094')
+topic_name = sys.argv[1]
+consumer = KafkaConsumer(topic_name, bootstrap_servers='localhost:9094')
 for msg in consumer:
     print(msg.value)
-print('ok')
