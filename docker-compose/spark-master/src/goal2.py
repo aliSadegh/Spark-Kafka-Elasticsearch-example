@@ -18,7 +18,7 @@ SCHEMA = StructType([
     StructField("@timestamp", StringType())
     ])
 
-spark = SparkSession.builder.appName("read_test_straeam").getOrCreate()
+spark = SparkSession.builder.appName("goal2_app").getOrCreate()
 
 # Reduce logging
 spark.sparkContext.setLogLevel("WARN")
