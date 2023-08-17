@@ -1,5 +1,6 @@
 # Spark-Kafka-example
 A simple example of using spark and kafka and push to elasticsearch
+some other fucking text
 
 
 ## مقدمه
@@ -109,8 +110,28 @@ A simple example of using spark and kafka and push to elasticsearch
 - replication داشته باشد (افزایش سرعت خواندن و نوشتن، جلوگیری از ازدست دادن داده)
 
 
-## راهکار
+## ابزارها
+با توجه به قسمت قبل در ادامه به معرفی ابزارهایی خواهیم پرداخت که معماری سامانه را پوشش دهند.
+
+### Apache Kafka
+ابزاری قدرتمند که وظیفه buffering را به عهده میگیرد.
+*** علت انتخاب کافکا ***
+
+### Apache Spark
+ابزاری قدرت مند جهت پردازش داده
+*** علت انتخاب اسپارت ***
+
+### Elasticsearch
+ابزاری قدرتمند که به تنهایی نیازمندی های ذخیره سازی، جستجو، گزارش گیری و پایش داده را پوشش میدهد.
+*** علیت انتخاب الستیک ***
+
+## Pipeline
+معماری ابزارهای معرفی شده در یک نگاه به صورت زیر است.
+
 ![diagram-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/307d453b-cef1-400c-8617-c415cdf8b775)
 
-معماری و راهکار پیشنهادی استفاده از ابزارهای زیر است:
-- Kafka:
+### Data Ingestion
+
+### Anomaly Detection and Data Aggrigation
+
+### Elasticsearch Integration
