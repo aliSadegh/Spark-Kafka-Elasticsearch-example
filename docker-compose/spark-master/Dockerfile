@@ -1,6 +1,5 @@
 FROM bitnami/spark:3.4
 #COPY ./packages/* /opt/bitnami/spark/jars/
-#COPY ./packages/* /opt/bitnami/spark/.ivy2/jars/
 COPY ./src/* /src/
 RUN ["pip3", "install", "kafka-python"]
 CMD ["/bin/sh", "-c", \
