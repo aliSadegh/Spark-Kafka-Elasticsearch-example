@@ -34,7 +34,7 @@ some other fucking text
 با فرض موارد بالا بدیهی است که به معماری توزیع شده و hight available نیاز داریم
 
 معماری پیشنهادی میتواند شامل اجزاء زیر باشد:
-### Buffering System
+### Buffering System:
 سیستمی که داده های ورودی و خروجی را به صورت موقت نگهداری میکند.
 
 مزایا:
@@ -50,7 +50,7 @@ some other fucking text
 - replication داشته باشد (سرعت بالای خواندن و نوشتن، از دست نرفتن داده)
 - اجزای دیگر به راحتی بتوانند با آن تعامل کنند
 
-### Processing System
+### Processing System:
 سیستمی که وظیفه محاسبه داده ها را بر عهده دارد.
 
 مزایا:
@@ -61,7 +61,7 @@ some other fucking text
 - فرمت های مختلف داده را پشتیبانی کند
 - نگهداشت آن آسان باشد
 
-### Reporting System
+### Reporting System:
 سیستمی که با توجه به نیازمندی های سازمان بتوان گزارشات تحلیلی روی داده ها تولید کند.
 این قسمت نتیجه قابل لمس برای سازمان و افراد سازمان است چون کاربر نهایی با این سیستم روبرو خواهد شد.
 
@@ -76,7 +76,7 @@ some other fucking text
 - انواع نمودارها و گزارشات را پشتیبانی کند
 - قابلیت خروجی گرفتن از گزارشات را داشته باشد
 
-### Searching System
+### Searching System:
 سیستمی که وظیفه جستجتو روی داده ها را برعهده دارد
 سیستمی دیگر که کاربر نهایی از آن استفاده خواهد کرد.
 
@@ -87,7 +87,7 @@ some other fucking text
 - سرعت و عملکرد مناسبی داشته باشد
 - دارای رابط کاربری باشد
 
-### Monitoring System
+### Monitoring System:
 سیستمی که بتوان همه اجزاء سامانه را به صورت لحظه ای پایش کرد
 
 مزایا:
@@ -99,7 +99,7 @@ some other fucking text
 - دارای رابط کاربری باشد
 - دارای سیستم اطلاع رسانی باشد
 
-### Storing System
+### Storing System:
 سیستمی که وظیفه ذخیره سازی داده ها را برعهده دارد
 
 مزایا:
@@ -113,15 +113,15 @@ some other fucking text
 ## ابزارها
 با توجه به قسمت قبل در ادامه به معرفی ابزارهایی خواهیم پرداخت که معماری سامانه را پوشش دهند.
 
-### Apache Kafka
+### Apache Kafka:
 ابزاری قدرتمند که وظیفه buffering را به عهده میگیرد.
 *** علت انتخاب کافکا ***
 
-### Apache Spark
+### Apache Spark:
 ابزاری قدرت مند جهت پردازش داده
 *** علت انتخاب اسپارت ***
 
-### Elasticsearch
+### Elasticsearch:
 ابزاری قدرتمند که به تنهایی نیازمندی های ذخیره سازی، جستجو، گزارش گیری و پایش داده را پوشش میدهد.
 *** علیت انتخاب الستیک ***
 
@@ -132,9 +132,9 @@ some other fucking text
 
 ### Data Ingestion
 
-### Anomaly Detection and Data Aggrigation
+### Anomaly Detection and Data Aggrigation:
 
-### Elasticsearch Integration
+### Elasticsearch Integration:
 
 ## Challanges and Learnings
 
