@@ -135,3 +135,13 @@ some other fucking text
 ### Anomaly Detection and Data Aggrigation
 
 ### Elasticsearch Integration
+
+## Challanges and Learnings
+
+## Results and Impact
+
+## Future Work
+
+## Conclusion
+
+## References
