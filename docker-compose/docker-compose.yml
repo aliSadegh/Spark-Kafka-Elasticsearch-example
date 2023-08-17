@@ -33,6 +33,7 @@ services:
 #    image: docker.io/bitnami/spark:3.4
     build: spark-master
     container_name: spark-master
+    restart: on-failure
     environment:
       - SPARK_MODE=master
       - SPARK_RPC_AUTHENTICATION_ENABLED=no

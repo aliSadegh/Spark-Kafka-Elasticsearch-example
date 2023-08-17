@@ -2,7 +2,7 @@
 
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DateType, FloatType, TimestampType
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType, FloatType, TimestampType
 
 KAFKA_BOOTSTRAP_SERVERS = "kafka:9092"
 KAFKA_TOPIC = "test-inter"

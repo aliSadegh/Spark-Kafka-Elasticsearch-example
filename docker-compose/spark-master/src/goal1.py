@@ -2,7 +2,7 @@
 
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DateType, FloatType, TimestampType
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType, FloatType, TimestampType
 
 KAFKA_BOOTSTRAP_SERVERS = "kafka:9092"
 KAFKA_TOPIC = "test-inter"
@@ -45,11 +45,11 @@ df = df\
 
 df = df\
     .groupby(
-        F.window("@timestamp", "20 seconds"),
+        F.window("@timestamp", "20 seconds", "1 seconds"),
         F.col("client_ip")
     )\
     .count()\
-    .filter("count > 10")\
+    .filter("count < 10")\
     .withColumn("value", F.to_json( F.struct(F.col("*"))))\
     .selectExpr("value")
 
