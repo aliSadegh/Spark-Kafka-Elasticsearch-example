@@ -1,10 +1,14 @@
 # Overview
-This is a simple pipeline example of using kafka and spark with elasticsearch for processing and storing log data.
+This is a simple example that we developed for processing NGINX log data, detecting anomalies, and performing data analytics using Kafka, Spark, and Elasticsearch.  
 
-# Problem Statement
-The input is the NGINX logs that provide request details to the website. We need to be notified if there is a problem in the website or we are under attack. Also there should be a feature to investigate through logs for finding some patterns.
+Our goals include:
+1. Detects if a user requests more than 10 times in every 20 seconds (1 sec hopping).
+2. Detects if a host returns 4XX more than 15 times in every 30 seconds (1 sec hopping).
+3. Calculates successful requests for each country minutely and produces it to another topic.
+4. Calculates average response time for each host minutely and produces it to another topic.
+5. Publishes raw data to ElasticSearch.
 
-A sample record is like:  
+A sample record of log is like:  
 ```
 {
     'server': 's_v3',
@@ -18,13 +22,6 @@ A sample record is like:
 }
 ```
 
-# Goalse
-1. Detects if a user requests more than 10 times in every 20 seconds (1 sec hopping).
-2. Detects if a host returns 4XX more than 15 times in every 30 seconds (1 sec hopping).
-3. Calculates successful requests for each country minutely and produces it to another topic.
-4. Calculates average response time for each host minutely and produces it to another topic.
-5. Publishes raw data to ElasticSearch.
-
 # Run
 For deploy whole the solution run this command:
 ```
@@ -32,7 +29,8 @@ sudo docker-compose up docker-compose/ -d
 ```
 
 # Test
-For test your deployment, you can run the python file that exist in test directory  
+For testing, we provided Python script located in the test directory. These scripts allowed testing of data ingestion and anomaly detection goals.    
+
 For test data ingestion, run this command:  
 ```python3 test/kafka-consumer.py test-inter```  
 
@@ -45,16 +43,13 @@ For test elasticsearch index run this commad:
 **run couple of times, the number of count field must be increase**  
 
 # Pipeline
-a architucture of this pipeline show as a picture below: 
+Our pipeline architecture comprised data ingestion from Kafka, Spark-based processing, and storage in Elasticsearch. This diagram illustrates the flow: 
 
 ![diagram-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/307d453b-cef1-400c-8617-c415cdf8b775)
 
-As you can see, data ingest to kafka which is the buffering system that hold data, after data spark read data from kafka topic and proccess them, spark produce result data to kafka again for any action system can do on these data, also we connected kafka connect to kafka and elasticsearch for passing data from kafka topic to elasticsearch index.  
-
 ## Data Ingestion
-For simulate data to generating Nginx log, we have a python code that generate random data.  
-this python code exist in data_producer directory.  
-after random data generated, they produced to a topic kafka like ```test-inter``` 
+To simulate real-world NGINX log data, we used a Python script that generated randomized log entries. This data was efficiently ingested into the pipeline using Kafka's message queue system.  
+You can find out in ```docker-compose/data_producer```
 
 ## Anomaly Detection and Data Aggrigation
 The idea for solving goal 1 to 4 is same, we use spark as a proccessing engin for that.  
@@ -71,7 +66,6 @@ For example, count, every 5 minutes, how many events were detected in the last 5
 ### Sliding time window
 Sliding time windows are a flexibilization of tumbling windows. Instead of creating non-overlapping intervals, they allow defining how often each interval will be created.  
 For example, every 5 minutes, count how many events were detected in the last 30 minutes.  
-
 ![window-time1-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7cf27475-8503-49f8-851f-8a40883a506b)
 
 Now in goal 1 and 2 we used flexibale window algolithm for detect anomalies  
@@ -121,22 +115,11 @@ df = df\
 ```
 
 ## Elasticsearch Integration
-The last goal is storing data in elasticsearch, for achive this goal we used Kafka connect that garantee ingest data from kafka to elastic.  
-you can find this in ```kafka-connect``` directory  
-```
-name=elasticsearch-sink
-connector.class=io.confluent.connect.elasticsearch.ElasticsearchSinkConnector
-tasks.max=1
-topics=test-inter
-key.ignore=true
-connection.url=http://elastic:9200
-type.name=kafka-connect
-schema.ignore=true
-```
+The pipeline integrated Kafka Connect to seamlessly transfer raw data from Kafka topics to Elasticsearch. This enabled us to store and query the data efficiently for analysis and visualization.   
 
 # Conclusion
-This is a simple example of useing kafka and spark utilized with docker.  
-There is a lots of things we can do for improve out sulotion and more efficient.
+In conclusion, our NGINX log data processing and anomaly detection pipeline demonstrated the capabilities of Kafka, Spark, and Elasticsearch in creating an efficient and effective solution for website monitoring.
 
 # References
-Thanks to these links which inspire me to solve this challange
+We'd like to acknowledge the resources and inspiration from the following links that guided our solution:  
+
