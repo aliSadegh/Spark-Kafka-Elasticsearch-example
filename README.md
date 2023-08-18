@@ -32,7 +32,16 @@ sudo docker-compose up docker-compose/ -d
 ```
 
 # test
-For test your deployment, you can run the python file that exist in test directory
+For test your deployment, you can run the python file that exist in test directory  
+For test data ingestion, run this command:
+```python3 test/kafka-consumer.py test-inter```
+For test goals 1 to 4, run this command:  
+```python3 test/kafka-consumer.py goal[X]-topic```
+*** insted of [X] write the number related to the goals ***  
+For test elasticsearch index run this commad:  
+```curl http://localhost:9200/test-inter/_count```
+*** run couple of times, the number of count field must be increase ***
+
 # Pipeline
 a architucture of this pipeline show as a picture below:  
 ![diagram-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/307d453b-cef1-400c-8617-c415cdf8b775)
