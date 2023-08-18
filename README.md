@@ -1,7 +1,8 @@
 # Overview
 This is a simple example that we developed for processing NGINX log data, detecting anomalies, and performing data analytics using Kafka, Spark, and Elasticsearch.  
 
-Our goals include:
+# Goals
+Our objectives for this project were as follows:  
 1. Detects if a user requests more than 10 times in every 20 seconds (1 sec hopping).
 2. Detects if a host returns 4XX more than 15 times in every 30 seconds (1 sec hopping).
 3. Calculates successful requests for each country minutely and produces it to another topic.
@@ -22,25 +23,25 @@ A sample record of log is like:
 }
 ```
 
-# Run
-For deploy whole the solution run this command:
+# Execution
+To deploy the entire solution, execute the following command:  
 ```
 sudo docker-compose up docker-compose/ -d
 ```
 
-# Test
-For testing, we provided Python script located in the test directory. These scripts allowed testing of data ingestion and anomaly detection goals.    
+# Testing
+For testing, we provided Python script located in the test directory. This script allowed testing of data ingestion and anomaly detection goals.    
 
-For test data ingestion, run this command:  
+For testing data ingestion:  
 ```python3 test/kafka-consumer.py test-inter```  
 
-For test goals 1 to 4, run this command:  
+For testing goals 1 to 4:  
 ```python3 test/kafka-consumer.py goal[X]-topic```  
-**insted of [X] write the number related to the goals**  
+**(Note: Replace [X] with the corresponding goal number)**  
 
-For test elasticsearch index run this commad:  
+To test the Elasticsearch index:  
 ```curl http://localhost:9200/test-inter/_count```  
-**run couple of times, the number of count field must be increase**  
+**(Execute multiple times; the count field should increase)**  
 
 # Pipeline
 Our pipeline architecture comprised data ingestion from Kafka, Spark-based processing, and storage in Elasticsearch. This diagram illustrates the flow: 
@@ -48,14 +49,13 @@ Our pipeline architecture comprised data ingestion from Kafka, Spark-based proce
 ![diagram-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/307d453b-cef1-400c-8617-c415cdf8b775)
 
 ## Data Ingestion
-To simulate real-world NGINX log data, we used a Python script that generated randomized log entries. This data was efficiently ingested into the pipeline using Kafka's message queue system.  
+To simulate real-world NGINX log data, we used a Python script that generated randomized log entries.  
 You can find out in ```docker-compose/data_producer```
 
 ## Anomaly Detection and Data Aggrigation
-The idea for solving goal 1 to 4 is same, we use spark as a proccessing engin for that.  
-First we read data from kafka topics to Data Frames and do some aggrigation or filtring on that and finally we produce result to new Kafka topic for each goal.  
+Our approach to addressing goals 1 to 4 involved leveraging Spark for processing. Data from Kafka topics is fed into DataFrames, where aggregation and filtering are performed. Results are subsequently produced into new Kafka topics dedicated to each goal.   
 
-the python files that containes pyspark code for solving goal 1 to 4 are exists in ```docker-compose/spark-master/src```  
+The Python files that containes pyspark code for solving these goals exists in ```docker-compose/spark-master/src```  
 
 Before describing any codes, let's see the algorithm that we used to solve golas
 ### Tumbling time window
