@@ -1,4 +1,4 @@
-# OVERVIEW
+# Overview
 You will be creating a pipeline to consume data from a kafka topic and aggregate the data to alert anomalies and also there should be a place to investigate raw data.
 
 # Problem Statement
@@ -18,7 +18,7 @@ A sample record is like:
 }
 ```
 
-# GOALS
+# Goalse
 1. Detects if a user requests more than 10 times in every 20 seconds (1 sec hopping).
 2. Detects if a host returns 4XX more than 15 times in every 30 seconds (1 sec hopping).
 3. Calculates successful requests for each country minutely and produces it to another topic.
@@ -33,14 +33,16 @@ sudo docker-compose up docker-compose/ -d
 
 # test
 For test your deployment, you can run the python file that exist in test directory  
-For test data ingestion, run this command:
-```python3 test/kafka-consumer.py test-inter```
+For test data ingestion, run this command:  
+```python3 test/kafka-consumer.py test-inter```  
+
 For test goals 1 to 4, run this command:  
-```python3 test/kafka-consumer.py goal[X]-topic```
+```python3 test/kafka-consumer.py goal[X]-topic```  
 *** insted of [X] write the number related to the goals ***  
+
 For test elasticsearch index run this commad:  
-```curl http://localhost:9200/test-inter/_count```
-*** run couple of times, the number of count field must be increase ***
+```curl http://localhost:9200/test-inter/_count```  
+*** run couple of times, the number of count field must be increase ***  
 
 # Pipeline
 a architucture of this pipeline show as a picture below:  
@@ -52,7 +54,10 @@ this python code exist in data_producer directory.
 after random data generated, they produced to a topic kafka line ```test-inter``` 
 
 ## Anomaly Detection and Data Aggrigation:
-
+Before describing any codes, let's see the algorithm that we used in goal 1 and 2  
+### Sliding time window — Flexibilization on the time intervals
+Sliding time windows are a flexibilization of tumbling windows. Instead of creating non-overlapping intervals, they allow defining how often each interval will be created.  
+For example, every 5 minutes, count how many events were detected in the last 30 minutes.
 
 ## Elasticsearch Integration:
 
