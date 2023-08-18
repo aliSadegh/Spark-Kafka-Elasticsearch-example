@@ -67,8 +67,8 @@ For example, every 5 minutes, count how many events were detected in the last 30
 
 ![window-time1-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7cf27475-8503-49f8-851f-8a40883a506b)
 
-Now in goal 1 and 2 we used this algolithm for detect anomalies  
-for goal 1 we must a window for 20 seconds in 1 second interval
+Now in goal 1 and 2 we used flexibale window algolithm for detect anomalies  
+for goal 1 we count recive logs for each ```client-ip``` for last 20 seconds every 1 second interval  
 ```
 df = df\
     .groupby(
@@ -79,7 +79,7 @@ df = df\
     .filter("count > 10")
 ```  
 
-for goal 1 we cound record every 1 second for last 30 seconds  
+for goal 2 we count recive logs for each ```host``` for last 30 seconds every 1 second interval  
 ```
 df = df\
     .filter("status between 400 and 499")\
@@ -91,8 +91,41 @@ df = df\
     .filter("count > 15")
 ```
 
+for goal 3 and 4 it's little be easier, we used the fixed window algorithm.  
+also in goal 3 we used a ```filter()``` function for select just successfull response.  
+```
+df = df\
+    .filter("status between 200 and 299")\
+    .groupby(
+        F.window("@timestamp", "1 minutes"),
+        F.col("country")
+    )\
+    .count()
+```
+
+finally for gola 4 we used same algorithm like goal 3 also for calculate average we used ```avg()``` function
+```
+df = df\
+    .groupby(
+        F.window("@timestamp", "1 minutes"),
+        F.col("host")
+    )\
+    .avg("request_time")
+```
 
 ## Elasticsearch Integration:
+The last goal is storing data in elasticsearch, for achive this goal we used Kafka connect that garantee ingest data from kafka to elastic.  
+you can find this in ```kafka-connect``` directory  
+```
+name=elasticsearch-sink
+connector.class=io.confluent.connect.elasticsearch.ElasticsearchSinkConnector
+tasks.max=1
+topics=test-inter
+key.ignore=true
+connection.url=http://elastic:9200
+type.name=kafka-connect
+schema.ignore=true
+```
 
 # Challanges and Learnings
 
