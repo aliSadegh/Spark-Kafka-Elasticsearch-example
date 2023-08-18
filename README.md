@@ -121,5 +121,5 @@ In conclusion, our NGINX log data processing and anomaly detection pipeline demo
 
 # References
 We'd like to acknowledge the resources and inspiration from the following links that guided our solution:  
-[A Fast Look at Spark Structured Streaming + Kafka](https://towardsdatascience.com/a-fast-look-at-spark-structured-streaming-kafka-f0ff64107325)
+[A Fast Look at Spark Structured Streaming + Kafka](https://towardsdatascience.com/a-fast-look-at-spark-structured-streaming-kafka-f0ff64107325)  
 [How to Link Kafka & ElasticSearch with a Kafka Connector in a Local Docker Container](https://medium.com/@jan_5421/how-to-add-an-elasticsearch-kafka-connector-to-a-local-docker-container-f495fe25ef72)
