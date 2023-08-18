@@ -55,16 +55,14 @@ this python code exist in data_producer directory.
 after random data generated, they produced to a topic kafka like ```test-inter``` 
 
 ## Anomaly Detection and Data Aggrigation:
-Before describing any codes, let's see the algorithm that we used in goal 1 and 2  
+Before describing any codes, let's see the algorithm that we used to solve golas
+![fix-window-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7b602173-2de3-45a6-8a6a-c843cec8ad74)
+
 ### Sliding time window — Flexibilization on the time intervals
 Sliding time windows are a flexibilization of tumbling windows. Instead of creating non-overlapping intervals, they allow defining how often each interval will be created.  
 For example, every 5 minutes, count how many events were detected in the last 30 minutes.  
-<<<<<<< HEAD
-=======
-![window-time1-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7cf27475-8503-49f8-851f-8a40883a506b)
->>>>>>> 6c7fbab7c13a7eb050508a6807204f60eb5cd108
 
-<<<<<<< HEAD
+![window-time1-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7cf27475-8503-49f8-851f-8a40883a506b)
 
 Now in goal 1 and 2 we used this algolithm for detect anomalies  
 for goal 1 we must a window for 20 seconds in 1 second interval
