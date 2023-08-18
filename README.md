@@ -56,6 +56,9 @@ after random data generated, they produced to a topic kafka like ```test-inter``
 
 ## Anomaly Detection and Data Aggrigation:
 Before describing any codes, let's see the algorithm that we used to solve golas
+### Tumbling time window
+An important feature of stream processing tools is the ability to handle event time processing. Tumbling windows are non-overlapping fixed time intervals used to make aggregations using event-time columns. To put it more simply, they slice the timeline into equally sized slices so each event belongs to a single interval.  
+For example, count, every 5 minutes, how many events were detected in the last 5 minutes.
 ![fix-window-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7b602173-2de3-45a6-8a6a-c843cec8ad74)
 
 ### Sliding time window — Flexibilization on the time intervals
@@ -89,9 +92,6 @@ df = df\
 ```
 
 
-=======
-
->>>>>>> 6c7fbab7c13a7eb050508a6807204f60eb5cd108
 ## Elasticsearch Integration:
 
 # Challanges and Learnings
