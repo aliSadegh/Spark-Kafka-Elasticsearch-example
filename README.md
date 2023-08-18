@@ -57,7 +57,8 @@ after random data generated, they produced to a topic kafka line ```test-inter``
 Before describing any codes, let's see the algorithm that we used in goal 1 and 2  
 ### Sliding time window — Flexibilization on the time intervals
 Sliding time windows are a flexibilization of tumbling windows. Instead of creating non-overlapping intervals, they allow defining how often each interval will be created.  
-For example, every 5 minutes, count how many events were detected in the last 30 minutes.
+For example, every 5 minutes, count how many events were detected in the last 30 minutes.  
+![window-time](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/0bb72dce-289e-47fe-b416-3b55a8455f29)
 
 ## Elasticsearch Integration:
 
