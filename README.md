@@ -1,5 +1,5 @@
 # Overview
-You will be creating a pipeline to consume data from a kafka topic and aggregate the data to alert anomalies and also there should be a place to investigate raw data.
+This is a simple pipeline example of using kafka and spark with elasticsearch for processing and storing log data.
 
 # Problem Statement
 The input is the NGINX logs that provide request details to the website. We need to be notified if there is a problem in the website or we are under attack. Also there should be a feature to investigate through logs for finding some patterns.
@@ -31,7 +31,7 @@ For deploy whole the solution run this command:
 sudo docker-compose up docker-compose/ -d
 ```
 
-# test
+# Test
 For test your deployment, you can run the python file that exist in test directory  
 For test data ingestion, run this command:  
 ```python3 test/kafka-consumer.py test-inter```  
@@ -49,26 +49,33 @@ a architucture of this pipeline show as a picture below:
 
 ![diagram-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/307d453b-cef1-400c-8617-c415cdf8b775)
 
+As you can see, data ingest to kafka which is the buffering system that hold data, after data spark read data from kafka topic and proccess them, spark produce result data to kafka again for any action system can do on these data, also we connected kafka connect to kafka and elasticsearch for passing data from kafka topic to elasticsearch index.  
+
 ## Data Ingestion
 For simulate data to generating Nginx log, we have a python code that generate random data.  
 this python code exist in data_producer directory.  
 after random data generated, they produced to a topic kafka like ```test-inter``` 
 
-## Anomaly Detection and Data Aggrigation:
+## Anomaly Detection and Data Aggrigation
+The idea for solving goal 1 to 4 is same, we use spark as a proccessing engin for that.  
+First we read data from kafka topics to Data Frames and do some aggrigation or filtring on that and finally we produce result to new Kafka topic for each goal.  
+
+the python files that containes pyspark code for solving goal 1 to 4 are exists in ```docker-compose/spark-master/src```  
+
 Before describing any codes, let's see the algorithm that we used to solve golas
 ### Tumbling time window
 An important feature of stream processing tools is the ability to handle event time processing. Tumbling windows are non-overlapping fixed time intervals used to make aggregations using event-time columns. To put it more simply, they slice the timeline into equally sized slices so each event belongs to a single interval.  
 For example, count, every 5 minutes, how many events were detected in the last 5 minutes.
 ![fix-window-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7b602173-2de3-45a6-8a6a-c843cec8ad74)
 
-### Sliding time window — Flexibilization on the time intervals
+### Sliding time window
 Sliding time windows are a flexibilization of tumbling windows. Instead of creating non-overlapping intervals, they allow defining how often each interval will be created.  
 For example, every 5 minutes, count how many events were detected in the last 30 minutes.  
 
 ![window-time1-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7cf27475-8503-49f8-851f-8a40883a506b)
 
 Now in goal 1 and 2 we used flexibale window algolithm for detect anomalies  
-for goal 1 we count recive logs for each ```client-ip``` for last 20 seconds every 1 second interval  
+for goal 1 we count last 20 seconds receive logs for each ```client-ip``` every 1 second interval  
 ```
 df = df\
     .groupby(
@@ -79,7 +86,7 @@ df = df\
     .filter("count > 10")
 ```  
 
-for goal 2 we count recive logs for each ```host``` for last 30 seconds every 1 second interval  
+for goal 2 we count last 30 seconds recive logs for each ```host``` every 1 second interval  
 ```
 df = df\
     .filter("status between 400 and 499")\
@@ -91,7 +98,7 @@ df = df\
     .filter("count > 15")
 ```
 
-for goal 3 and 4 it's little be easier, we used the fixed window algorithm.  
+for goal 3 and 4 it's easier, we used the fixed window algorithm.  
 also in goal 3 we used a ```filter()``` function for select just successfull response.  
 ```
 df = df\
@@ -113,7 +120,7 @@ df = df\
     .avg("request_time")
 ```
 
-## Elasticsearch Integration:
+## Elasticsearch Integration
 The last goal is storing data in elasticsearch, for achive this goal we used Kafka connect that garantee ingest data from kafka to elastic.  
 you can find this in ```kafka-connect``` directory  
 ```
@@ -127,10 +134,9 @@ type.name=kafka-connect
 schema.ignore=true
 ```
 
-# Challanges and Learnings
-
-# Future Work
-
 # Conclusion
+This is a simple example of useing kafka and spark utilized with docker.  
+There is a lots of things we can do for improve out sulotion and more efficient.
 
 # References
+Thanks to these links which inspire me to solve this challange
