@@ -38,29 +38,62 @@ For test data ingestion, run this command:
 
 For test goals 1 to 4, run this command:  
 ```python3 test/kafka-consumer.py goal[X]-topic```  
-*** insted of [X] write the number related to the goals ***  
+**insted of [X] write the number related to the goals**  
 
 For test elasticsearch index run this commad:  
 ```curl http://localhost:9200/test-inter/_count```  
-*** run couple of times, the number of count field must be increase ***  
+**run couple of times, the number of count field must be increase**  
 
 # Pipeline
-a architucture of this pipeline show as a picture below:  
+a architucture of this pipeline show as a picture below: 
+
 ![diagram-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/307d453b-cef1-400c-8617-c415cdf8b775)
 
 ## Data Ingestion
 For simulate data to generating Nginx log, we have a python code that generate random data.  
 this python code exist in data_producer directory.  
-after random data generated, they produced to a topic kafka line ```test-inter``` 
+after random data generated, they produced to a topic kafka like ```test-inter``` 
 
 ## Anomaly Detection and Data Aggrigation:
 Before describing any codes, let's see the algorithm that we used in goal 1 and 2  
 ### Sliding time window — Flexibilization on the time intervals
 Sliding time windows are a flexibilization of tumbling windows. Instead of creating non-overlapping intervals, they allow defining how often each interval will be created.  
 For example, every 5 minutes, count how many events were detected in the last 30 minutes.  
+<<<<<<< HEAD
+=======
 ![window-time1-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7cf27475-8503-49f8-851f-8a40883a506b)
+>>>>>>> 6c7fbab7c13a7eb050508a6807204f60eb5cd108
+
+<<<<<<< HEAD
+
+Now in goal 1 and 2 we used this algolithm for detect anomalies  
+for goal 1 we must a window for 20 seconds in 1 second interval
+```
+df = df\
+    .groupby(
+        F.window("@timestamp", "20 seconds", "1 seconds"),
+        F.col("client_ip")
+    )\
+    .count()\
+    .filter("count > 10")
+```  
+
+for goal 1 we cound record every 1 second for last 30 seconds  
+```
+df = df\
+    .filter("status between 400 and 499")\
+    .groupby(
+        F.window("@timestamp", "30 seconds", "1 seconds"),
+        F.col("host")
+    )\
+    .count()\
+    .filter("count > 15")
+```
 
 
+=======
+
+>>>>>>> 6c7fbab7c13a7eb050508a6807204f60eb5cd108
 ## Elasticsearch Integration:
 
 # Challanges and Learnings
