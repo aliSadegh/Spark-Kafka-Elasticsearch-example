@@ -46,7 +46,7 @@ To test the Elasticsearch index:
 # Pipeline
 Our pipeline architecture comprised data ingestion from Kafka, Spark-based processing, and storage in Elasticsearch. This diagram illustrates the flow: 
 
-![diagram-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/307d453b-cef1-400c-8617-c415cdf8b775)
+![Architecture](/assets/diagram.png)
 
 ## Data Ingestion
 To simulate real-world NGINX log data, we used a Python script that generated randomized log entries.  
@@ -61,12 +61,12 @@ Before describing any code, let's see the algorithm that we used to achieve our 
 ### Tumbling time window
 Tumbling windows are non-overlapping fixed time intervals that are vital for event time processing in stream processing tools. These windows are employed to make aggregations using event-time columns. Simply put, they divide the timeline into equally sized slices, ensuring each event belongs to a single interval. For instance, we can count the events detected in the last 5 minutes.  
 
-![fix-window-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7b602173-2de3-45a6-8a6a-c843cec8ad74)
+![fix window example](/assets/fix-window.png)
 
 ### Sliding time window
 Sliding time windows are a flexible version of tumbling windows. Unlike non-overlapping intervals, they enable us to define the frequency at which each interval is created. For example, we can count the events detected in the last 30 minutes every 5 minutes.    
 
-![window-time1-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7cf27475-8503-49f8-851f-8a40883a506b)
+![sliding window example](/assets/window-time.png)
 
 For goals 1 and 2, we utilized the flexible window algorithm to detect anomalies.  
 For goal 1, we counted the logs received for each ```client-ip``` in the last 20 seconds, with a 1-second interval.  
