@@ -49,17 +49,9 @@ df = df\
         F.col("client_ip")
     )\
     .count()\
-    .filter("count < 10")\
+    .filter("count > 10")\
     .withColumn("value", F.to_json( F.struct(F.col("*"))))\
     .selectExpr("value")
-
-#df.printSchema()
-#df.writeStream\
-#    .option("truncate", "false")\
-#    .outputMode("update")\
-#    .format("console")\
-#    .start()\
-#    .awaitTermination()
 
 df.writeStream\
     .outputMode("update")\
@@ -69,3 +61,11 @@ df.writeStream\
     .option("checkpointLocation", "/tmp/checkpoint1")\
     .start()\
     .awaitTermination()
+
+#df.printSchema()
+#df.writeStream\
+#    .option("truncate", "false")\
+#    .outputMode("update")\
+#    .format("console")\
+#    .start()\
+#    .awaitTermination()

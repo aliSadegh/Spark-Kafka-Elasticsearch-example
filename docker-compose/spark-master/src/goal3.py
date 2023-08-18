@@ -53,14 +53,6 @@ df = df\
     .withColumn("value", F.to_json( F.struct(F.col("*"))))\
     .selectExpr("value")
 
-#df.printSchema()
-#df.writeStream\
-#    .option("truncate", "false")\
-#    .outputMode("update")\
-#    .format("console")\
-#    .start()\
-#    .awaitTermination()
-
 df.writeStream\
     .outputMode("update")\
     .format("kafka")\
@@ -69,3 +61,11 @@ df.writeStream\
     .option("checkpointLocation", "/tmp/checkpoint3")\
     .start()\
     .awaitTermination()
+
+#df.printSchema()
+#df.writeStream\
+#    .option("truncate", "false")\
+#    .outputMode("update")\
+#    .format("console")\
+#    .start()\
+#    .awaitTermination()

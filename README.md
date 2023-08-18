@@ -31,6 +31,8 @@ For deploy whole the solution run this command:
 sudo docker-compose up docker-compose/ -d
 ```
 
+# test
+For test your deployment, you can run the python file that exist in test directory
 # Pipeline
 a architucture of this pipeline show as a picture below:  
 ![diagram-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/307d453b-cef1-400c-8617-c415cdf8b775)

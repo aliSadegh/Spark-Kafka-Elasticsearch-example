@@ -50,17 +50,9 @@ df = df\
         F.col("host")
     )\
     .count()\
-    .filter("count < 15")\
+    .filter("count > 15")\
     .withColumn("value", F.to_json( F.struct(F.col("*"))))\
     .selectExpr("value")
-
-#df.printSchema()
-#df.writeStream\
-#    .option("truncate", "false")\
-#    .outputMode("update")\
-#    .format("console")\
-#    .start()\
-#    .awaitTermination()
 
 df.writeStream\
     .outputMode("update")\
@@ -70,3 +62,11 @@ df.writeStream\
     .option("checkpointLocation", "/tmp/checkpoint2")\
     .start()\
     .awaitTermination()
+
+#df.printSchema()
+#df.writeStream\
+#    .option("truncate", "false")\
+#    .outputMode("update")\
+#    .format("console")\
+#    .start()\
+#    .awaitTermination()
