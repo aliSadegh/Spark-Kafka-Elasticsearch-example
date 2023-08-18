@@ -1,5 +1,5 @@
 # Spark-Kafka-example
-A simple example of using spark and kafka and push to elasticsearch
+A simple example of using spark and kafka and push to elasticsearch    
 some other fucking text
 
 
