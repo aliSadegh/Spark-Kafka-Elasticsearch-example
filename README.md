@@ -60,10 +60,12 @@ The Python files that contain PySpark code for solving these goals exist in ```d
 Before describing any code, let's see the algorithm that we used to achieve our goals.  
 ### Tumbling time window
 Tumbling windows are non-overlapping fixed time intervals that are vital for event time processing in stream processing tools. These windows are employed to make aggregations using event-time columns. Simply put, they divide the timeline into equally sized slices, ensuring each event belongs to a single interval. For instance, we can count the events detected in the last 5 minutes.  
+
 ![fix-window-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7b602173-2de3-45a6-8a6a-c843cec8ad74)
 
 ### Sliding time window
 Sliding time windows are a flexible version of tumbling windows. Unlike non-overlapping intervals, they enable us to define the frequency at which each interval is created. For example, we can count the events detected in the last 30 minutes every 5 minutes.    
+
 ![window-time1-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7cf27475-8503-49f8-851f-8a40883a506b)
 
 For goals 1 and 2, we utilized the flexible window algorithm to detect anomalies.  
@@ -119,4 +121,5 @@ In conclusion, our NGINX log data processing and anomaly detection pipeline demo
 
 # References
 We'd like to acknowledge the resources and inspiration from the following links that guided our solution:  
-
+https://towardsdatascience.com/a-fast-look-at-spark-structured-streaming-kafka-f0ff64107325  
+https://medium.com/@jan_5421/how-to-add-an-elasticsearch-kafka-connector-to-a-local-docker-container-f495fe25ef72
