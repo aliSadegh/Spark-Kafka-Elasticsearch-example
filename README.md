@@ -24,9 +24,9 @@ A sample record of log is like:
 ```
 
 # Execution
-To deploy the entire solution, execute the following command:  
+To deploy the entire solution, navigate to docker-compose directory and execute the following command:  
 ```
-sudo docker-compose up docker-compose/ -d
+sudo docker-compose up -d
 ```
 
 # Testing

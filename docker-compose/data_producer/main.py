@@ -24,4 +24,4 @@ if __name__ == '__main__':
             "host": f"api_{random.randint(0, 50)}.digikala.com",
             "country": f"{random.choice(['FR', 'US', 'IR', 'EN', 'GE'])}",
             "@timestamp": f"{time.time()}"})
-        time.sleep(0.5)
+        time.sleep(0.1)
