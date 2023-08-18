@@ -55,21 +55,19 @@ You can find out in ```docker-compose/data_producer```
 ## Anomaly Detection and Data Aggrigation
 Our approach to addressing goals 1 to 4 involved leveraging Spark for processing. Data from Kafka topics is fed into DataFrames, where aggregation and filtering are performed. Results are subsequently produced into new Kafka topics dedicated to each goal.   
 
-The Python files that containes pyspark code for solving these goals exists in ```docker-compose/spark-master/src```  
+The Python files that contain PySpark code for solving these goals exist in ```docker-compose/spark-master/src```  
 
-Before describing any codes, let's see the algorithm that we used to solve golas
+Before describing any code, let's see the algorithm that we used to achieve our goals.  
 ### Tumbling time window
-An important feature of stream processing tools is the ability to handle event time processing. Tumbling windows are non-overlapping fixed time intervals used to make aggregations using event-time columns. To put it more simply, they slice the timeline into equally sized slices so each event belongs to a single interval.  
-For example, count, every 5 minutes, how many events were detected in the last 5 minutes.
+Tumbling windows are non-overlapping fixed time intervals that are vital for event time processing in stream processing tools. These windows are employed to make aggregations using event-time columns. Simply put, they divide the timeline into equally sized slices, ensuring each event belongs to a single interval. For instance, we can count the events detected in the last 5 minutes.  
 ![fix-window-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7b602173-2de3-45a6-8a6a-c843cec8ad74)
 
 ### Sliding time window
-Sliding time windows are a flexibilization of tumbling windows. Instead of creating non-overlapping intervals, they allow defining how often each interval will be created.  
-For example, every 5 minutes, count how many events were detected in the last 30 minutes.  
+Sliding time windows are a flexible version of tumbling windows. Unlike non-overlapping intervals, they enable us to define the frequency at which each interval is created. For example, we can count the events detected in the last 30 minutes every 5 minutes.    
 ![window-time1-min](https://github.com/aliSadegh/Spark-Kafka-example/assets/24531562/7cf27475-8503-49f8-851f-8a40883a506b)
 
-Now in goal 1 and 2 we used flexibale window algolithm for detect anomalies  
-for goal 1 we count last 20 seconds receive logs for each ```client-ip``` every 1 second interval  
+For goals 1 and 2, we utilized the flexible window algorithm to detect anomalies.  
+For goal 1, we counted the logs received for each ```client-ip``` in the last 20 seconds, with a 1-second interval.  
 ```
 df = df\
     .groupby(
@@ -80,7 +78,7 @@ df = df\
     .filter("count > 10")
 ```  
 
-for goal 2 we count last 30 seconds recive logs for each ```host``` every 1 second interval  
+For goal 2, we counted the logs received for each ```host``` in the last 30 seconds, again with a 1-second interval.    
 ```
 df = df\
     .filter("status between 400 and 499")\
@@ -92,8 +90,7 @@ df = df\
     .filter("count > 15")
 ```
 
-for goal 3 and 4 it's easier, we used the fixed window algorithm.  
-also in goal 3 we used a ```filter()``` function for select just successfull response.  
+For goals 3 and 4, we used the fixed window algorithm. Additionally, for goal 3, we used the ```filter()``` function to select only successful responses. 
 ```
 df = df\
     .filter("status between 200 and 299")\
@@ -104,7 +101,7 @@ df = df\
     .count()
 ```
 
-finally for gola 4 we used same algorithm like goal 3 also for calculate average we used ```avg()``` function
+Finally, for goal 4, we used the same algorithm as goal 3, and to calculate the average, we used the ```avg()``` function.
 ```
 df = df\
     .groupby(
