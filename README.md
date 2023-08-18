@@ -2,7 +2,7 @@
 This is a simple example that we developed for processing NGINX log data, detecting anomalies, and performing data analytics using Kafka, Spark, and Elasticsearch.  
 
 # Goals
-Our objectives for this project were as follows:  
+Our objectives for this project are as follows:  
 1. Detects if a user requests more than 10 times in every 20 seconds (1 sec hopping).
 2. Detects if a host returns 4XX more than 15 times in every 30 seconds (1 sec hopping).
 3. Calculates successful requests for each country minutely and produces it to another topic.
@@ -49,11 +49,11 @@ Our pipeline architecture comprised data ingestion from Kafka, Spark-based proce
 ![Architecture](/assets/diagram.png)
 
 ## Data Ingestion
-To simulate real-world NGINX log data, we used a Python script that generated randomized log entries.  
+To simulate real-world NGINX log data, we used a Python script that generates randomized log entries.  
 You can find out in ```docker-compose/data_producer```
 
 ## Anomaly Detection and Data Aggrigation
-Our approach to addressing goals 1 to 4 involved leveraging Spark for processing. Data from Kafka topics is fed into DataFrames, where aggregation and filtering are performed. Results are subsequently produced into new Kafka topics dedicated to each goal.   
+Our approach to address goals 1 to 4 involved leveraging Spark for processing. Data from Kafka topics is fed into DataFrames, where aggregation and filtering are performed. Results are subsequently produced into new Kafka topics dedicated to each goal.   
 
 The Python files that contain PySpark code for solving these goals exist in ```docker-compose/spark-master/src```  
 
