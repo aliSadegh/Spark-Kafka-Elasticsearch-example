@@ -17,7 +17,7 @@ A sample record of log is like:
     'method': 'PUT',
     'status': '201',
     'request_time': '0.28',
-    'host': 'api_38.digikala.com',
+    'host': 'api_38.example.com',
     'country': 'US',
     '@timestamp': '1659509511.865323'
 }
@@ -98,10 +98,10 @@ df = df\
     .filter("count > 15")
 ```  
 ```
-b'{"window":{"start":"2023-08-18T15:16:54.000Z","end":"2023-08-18T15:17:24.000Z"},"host":"api_24.digikala.com","count":23}'
-b'{"window":{"start":"2023-08-18T15:16:57.000Z","end":"2023-08-18T15:17:27.000Z"},"host":"api_30.digikala.com","count":36}'
-b'{"window":{"start":"2023-08-18T15:17:06.000Z","end":"2023-08-18T15:17:36.000Z"},"host":"api_0.digikala.com","count":31}'
-b'{"window":{"start":"2023-08-18T15:17:03.000Z","end":"2023-08-18T15:17:33.000Z"},"host":"api_28.digikala.com","count":23}'
+b'{"window":{"start":"2023-08-18T15:16:54.000Z","end":"2023-08-18T15:17:24.000Z"},"host":"api_24.example.com","count":23}'
+b'{"window":{"start":"2023-08-18T15:16:57.000Z","end":"2023-08-18T15:17:27.000Z"},"host":"api_30.example.com","count":36}'
+b'{"window":{"start":"2023-08-18T15:17:06.000Z","end":"2023-08-18T15:17:36.000Z"},"host":"api_0.example.com","count":31}'
+b'{"window":{"start":"2023-08-18T15:17:03.000Z","end":"2023-08-18T15:17:33.000Z"},"host":"api_28.example.com","count":23}'
 ```
 
 For goals 3 and 4, we used the fixed window algorithm. Additionally, for goal 3, we used the ```filter()``` function to select only successful responses. 
@@ -131,10 +131,10 @@ df = df\
     .avg("request_time")
 ```  
 ```
-b'{"window":{"start":"2023-08-18T15:17:00.000Z","end":"2023-08-18T15:18:00.000Z"},"host":"api_26.digikala.com","avg(request_time)":0.5515789482742548}'
-b'{"window":{"start":"2023-08-18T15:15:00.000Z","end":"2023-08-18T15:16:00.000Z"},"host":"api_5.digikala.com","avg(request_time)":0.5083333346475329}'
-b'{"window":{"start":"2023-08-18T15:17:00.000Z","end":"2023-08-18T15:18:00.000Z"},"host":"api_31.digikala.com","avg(request_time)":0.4709278365270686}'
-b'{"window":{"start":"2023-08-18T15:16:00.000Z","end":"2023-08-18T15:17:00.000Z"},"host":"api_17.digikala.com","avg(request_time)":0.4656310695069797}'
+b'{"window":{"start":"2023-08-18T15:17:00.000Z","end":"2023-08-18T15:18:00.000Z"},"host":"api_26.example.com","avg(request_time)":0.5515789482742548}'
+b'{"window":{"start":"2023-08-18T15:15:00.000Z","end":"2023-08-18T15:16:00.000Z"},"host":"api_5.example.com","avg(request_time)":0.5083333346475329}'
+b'{"window":{"start":"2023-08-18T15:17:00.000Z","end":"2023-08-18T15:18:00.000Z"},"host":"api_31.example.com","avg(request_time)":0.4709278365270686}'
+b'{"window":{"start":"2023-08-18T15:16:00.000Z","end":"2023-08-18T15:17:00.000Z"},"host":"api_17.example.com","avg(request_time)":0.4656310695069797}'
 ```
 
 ## Elasticsearch Integration
