@@ -21,7 +21,7 @@ if __name__ == '__main__':
             "method": f"{random.choice(['POST', 'GET', 'PUT'])}",
             "status": f"{random.choice([200, 204, 201, 400, 403, 429, 500, 503])}",
             "request_time": f"{round(random.uniform(0.01, 1.01), 2)}",
-            "host": f"api_{random.randint(0, 50)}.digikala.com",
+            "host": f"api_{random.randint(0, 50)}.example.com",
             "country": f"{random.choice(['FR', 'US', 'IR', 'EN', 'GE'])}",
             "@timestamp": f"{time.time()}"})
         time.sleep(0.01)
